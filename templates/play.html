@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>My Website</title>
+  </head>
+  <body>
+    <h1>Welcome to the puzzles!</h1>  
+    <ul>
+      {% for puzzle in puzzles %}
+      <li>
+        <a href="{{ puzzle.link }}">{{ puzzle.name }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
