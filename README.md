@@ -71,11 +71,16 @@ A team contains the following properties:
 - Name
 - Integrants list
 
-## Community
 
-This represents an association of teams
 
-- Name
-- Teams list
-
+# Todo
+1. make database template
+2. design database module for managing games and users and teams
+3. make sign up frontend
+4. make login that only saves user id as cookie for future
+5. make games page
+6. make game (individual) page
+7. make flag checking api
+8. make scoreboard page
+9. cleaning (optional)
 
