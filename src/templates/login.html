@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Sign up!</title>
+  </head>
+  <body>
+    <main>
+
+        <h1>Log In so you can play NOW!</h1>  
+
+        <form action="{{ url_for('api_login_user') }}" method='POST'>
+
+          <label for="name">Username:</label>
+            <input type="text" 
+                   id="name" 
+                   name="name" 
+                   placeholder="Username" required/>
+
+          <label for="password" >Password:</label>
+            <input type="password" 
+                   id="password" 
+                   name='password' 
+                   placeholder='ej: 12345' required/>
+          <button type="submit">submit</button> 
+
+        </form>
+    </main>
+  </body>
+</html>

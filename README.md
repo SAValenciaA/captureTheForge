@@ -74,10 +74,10 @@ A team contains the following properties:
 
 
 # Todo
-1. make database template
-2. design database module for managing games and users and teams
-3. make sign up frontend
-4. make login that only saves user id as cookie for future
+1. ~make database template~
+2. ~make database module for managing games and users and teams~
+3. ~make sign up frontend~
+4. ~make login that only saves user id as cookie for future~
 5. make games page
 6. make game (individual) page
 7. make flag checking api

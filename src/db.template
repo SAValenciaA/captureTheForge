@@ -1,0 +1,36 @@
+drop table if exists Users;
+drop table if exists Puzzles;
+drop table if exists Teams;
+
+CREATE TABLE Teams (
+  id          TEXT PRIMARY KEY,
+  name        TEXT NOT NULL,
+  scoreTotal  INTEGER,
+  integrants  TEXT
+);
+
+CREATE TABLE Users (
+  id          TEXT PRIMARY KEY,
+  name        TEXT NOT NULL,
+  score       INTEGER,
+  password    TEXT NOT NULL,
+  solves      TEXT,
+  teamID      TEXT,
+
+  FOREIGN KEY(teamID) REFERENCES Team(id)
+);
+
+CREATE TABLE Puzzles (
+  id          TEXT PRIMARY KEY,
+  name        TEXT NOT NULL,
+  tags        TEXT NOT NULL,
+  description TEXT NOT NULL,
+  extraFiles  TEXT NOT NULL,
+  dificulty   INTEGER,
+  parentID    TEXT,
+  childrenID  TEXT,
+
+  FOREIGN KEY(parentID) REFERENCES Puzzles(id),
+  FOREIGN KEY(childrenID) REFERENCES Puzzles(id)
+);
+

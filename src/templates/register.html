@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Sign up!</title>
+  </head>
+  <body>
+    <main>
+
+        <h1>If you do not have an account, SIGN UP NOW!</h1>  
+
+        <form action="{{ url_for('api_register_user') }}" method='POST'>
+
+          <label for="name">Username:</label>
+            <input type="text" 
+                   id="name" 
+                   name="name" 
+                   placeholder="Username" required/>
+
+          <label for="password" >Password:</label>
+            <input type="password" 
+                   id="password" 
+                   name='password' 
+                   placeholder='ej: 12345' required/>
+
+          <label for="team" >Team ID:</label>
+            <input type="text" id="team" name='team'/>
+
+          <button type='submit'>Submit</button>
+        </form>
+    </main>
+  </body>
+</html>
