@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>My Website</title>
+  </head>
+  <body>
+    <h1>Puzzle: {{ puzzle.name }}</h1> <br />
+    <p>{{ puzzle.description }}</p>
+    <p>tags: {{ puzzle.tags }}</p>
+    <p>dificulty: {{ puzzle.dificulty }}</p>
+    {% if puzzle.extraFiles %}
+      <a href="/download?filename={{ puzzle.extraFiles }}" download>Download Files</a>
+    {% endif %}
+
+    <form id="flagForm">
+      <input type="hidden" name="id" value="{{ puzzle.id }}" />
+      <input type="text" name="flag" />
+      <button type="submit" onclick="sendForm()">submit</button>
+    </form>
+    <script>
+
+async function sendForm() {
+    const form = document.getElementById("flagForm");
+    const formData = new FormData(form);
+
+    // Convert FormData → plain object
+    const payload = new URLSearchParams(formData).toString();
+
+    try {
+        const response = await fetch("/api/check_flag", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: payload
+        });
+
+        const result = await response.json();
+
+        // Show alert depending on the returned status
+        if (result.status === "success") {
+            alert("Success: " + result.message);
+        } else {
+            alert("Error: " + result.message);
+        }
+
+    } catch (error) {
+        alert("Request failed: " + error);
+    }
+}
+</script>
+
+  </body>
+</html>

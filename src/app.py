@@ -1,20 +1,109 @@
+import os
 import users
+import puzzles
 import hashlib
-from database import init_db
-from flask import Flask, request, g, render_template, redirect, url_for, jsonify, make_response
+import hashTable
+import database
+from werkzeug.utils import secure_filename
+from flask import Flask, request, g, render_template, redirect, url_for, jsonify, make_response, send_from_directory, current_app
 
 app = Flask(__name__)
 md5 = lambda password: hashlib.md5(password.encode()).hexdigest()
 
-init_db(app)
+ALLOWED_EXTENSIONS = {'zip'}
+UPLOAD_FOLDER = './puzzles_files'
+
+database.init_db(app)
+
+app.config['UPLOAD_FOLDER'] = './puzzles_files'
+app.flags = None
+
+@app.before_request
+def load_flags():
+    puzzles_flags = database.query("select id, flag from Puzzles")
+    flags = hashTable.HashTable(len(puzzles_flags))
+    for puzzle in puzzles_flags:
+        flags.insert(puzzle['id'], puzzle['flag'])
+
+    current_app.flags = flags
 
 @app.route("/")
 def home():
     return "<p>Hello, World!</p>"
 
-@app.route("/dashboard")
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def save_file(request):
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'extraFiles' not in request.files:
+            print("No file sent")
+            print(request.files)
+            return ''
+        file = request.files['extraFiles']
+
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
+        if file.filename == '':
+            print("nameless file")
+            return ''
+
+        if file and allowed_file(file.filename):
+            print("saving file")
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return filename
+
+@app.route("/dashboard", methods=["POST", "GET"])
 def dashboard():
-    return "<p>Hello, World!</p>"
+    #if not request.method in ["POST", "GET"]:
+    #    return "<h1>HAZAAAAHHHHH.<\\ h1>"
+
+    if request.method == "POST":
+        name = request.form['name'] 
+        flag = request.form['flag']
+        tags = request.form['tags']
+        description = request.form['description']
+        extraFiles = save_file(request)
+        dificulty = request.form['dificulty']
+
+        puzzles.Puzzle.create_puzzle(name, flag, tags, description, extraFiles, dificulty)
+
+        return redirect(url_for('dashboard'))
+
+    if request.method == "GET":
+        return render_template('dashboard.html')
+
+@app.route("/api/check_flag", methods=["POST"])
+def check_flag():
+    flag_id = request.form['id']
+    user_answer = request.form['flag']
+    if current_app.flags.search(flag_id) != md5(user_answer ):
+        return jsonify({
+            'status': 'failure',
+            'message': 'The flag given is incorrect.'
+        })
+
+    auth_cookie = request.cookies.get('auth').split(":")
+    username = auth_cookie[0]
+    user = users.User.get_user("name", username)
+
+    puzzle = puzzles.Puzzle.get_puzzle("id", flag_id)
+
+    user.score += puzzle.dificulty
+    user.solves += puzzle.id + ","
+    print(f"{user.score}:{user.solves}")
+
+    user.save()
+
+    return jsonify({
+        'status': 'success',
+        'message': 'Correct!'
+    })
+
+
 
 @app.route("/login")
 def login():
@@ -29,13 +118,14 @@ def play():
 
     auth_cookie = request.cookies.get('auth').split(":")
     username = auth_cookie[0]
+    puzzle_id = request.args.get('id')
 
-    return f"<p>Let's play a game, {username}</p>"
-
-@app.route("/api/play")
-def api_play():
-    puzzleID = request.args.get("id", "Flask")
-    return f"You requested for {puzzleID}"
+    if puzzle_id:
+        puzzle = puzzles.Puzzle.get_puzzle("id", puzzle_id)
+        return render_template('puzzle.html', puzzle=puzzle)
+    else:
+        puzzles_list = puzzles.Puzzle.get_puzzle_list()
+        return render_template('play.html', puzzles=puzzles_list)
 
 
 @app.route("/api/login", methods=['POST'])
@@ -78,11 +168,10 @@ def api_register_user():
 
     return redirect(url_for('login'))
 
-
-@app.route("/api/addPuzzle")
-def api_add_puzzle():
-    puzzleID = request.args.get("id", "Flask")
-    return f"You requested for {puzzleID}"
+@app.route('/download/<path:filename>', methods=['GET'])
+def download(filename):
+    print(filename)
+    return send_from_directory(app.config['UPLOAD_FOLDER'],path=filename, as_attachment=True)
 
 @app.teardown_appcontext
 def close_connection(exception):

@@ -8,7 +8,9 @@
     <ul>
       {% for puzzle in puzzles %}
       <li>
-        <a href="{{ puzzle.link }}">{{ puzzle.name }}</a>
+        <h2><a href="play?id={{ puzzle.id }}">{{ puzzle.name }}</a></h2> <br />
+        <p>tags: {{ puzzle.tags }}</p>
+        <p>dificulty: {{ puzzle.dificulty }}</p>
       </li>
       {% endfor %}
     </ul>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Sign up!</title>
+  </head>
+  <body>
+    <main>
+
+        <h1>ADD THE PUZZLES</h1>  
+
+        <form action="{{ url_for('dashboard') }}" method='POST' enctype=multipart/form-data>
+
+          <label for="name">Name:</label>
+            <input type="text" 
+                   id="name" 
+                   name="name" 
+                   placeholder="name" required/>
+          <br>
+          <label for="flag" >flag:</label>
+            <input type="flag" 
+                   id="flag" 
+                   name='flag' 
+                   required/>
+
+          <br>
+          <label for="tags" >tags:</label>
+            <input type="tags" 
+                   id="tags" 
+                   name='tags' 
+                   required/>
+
+          <br>
+
+          <label for="description" >description:</label>
+            <input type="description" 
+                   id="description" 
+                   name='description' 
+                   required/>
+          <br>
+
+          <label for="extraFiles" >extraFiles:</label>
+            <input type="file" name="extraFiles">
+
+          <br>
+          <label for="dificulty" >dificulty:</label>
+            <input type="number" 
+                   id="dificulty" 
+                   name='dificulty' 
+                   required/>
+
+          <br>
+          <button type="submit">submit</button> 
+
+        </form>
+    </main>
+  </body>
+</html>
+

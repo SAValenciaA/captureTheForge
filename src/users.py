@@ -7,12 +7,26 @@ md5 = lambda password: hashlib.md5(password.encode()).hexdigest()
 class User:
     def __init__(self, user_data):
 
+        self.formatted = lambda v: str(v) if type(v) == int else f"'{v}'"
+
+        self.values_names_list = ['id', 'name', 'score', 'password', 'solves', 'teamID']
+
         self.id = user_data['id']
         self.name = user_data['name']
         self.score = user_data['score']
         self.password = user_data['password']
-        self.solves = user_data['solves'].split(",")
+        self.solves = user_data['solves']
         self.teamID = user_data['teamID']
+
+        self.values = lambda: [self.id, self.name, self.score, self.password, self.solves, self.teamID]
+
+        self.values_pair = lambda: zip(self.values_names_list, self.values())
+
+    def save(self):
+        values_changed = ", ".join(value[0] + " = " + self.formatted(value[1]) for value in self.values_pair())
+        query = f"update Users set {values_changed} where id == '{self.id}'"
+        print(query)
+        database.insert(query)
 
 
     @staticmethod
@@ -46,6 +60,7 @@ class User:
             return None
         user = User(user_data)
         return user
+    
 
 class Node:
     def __init__(self, user):

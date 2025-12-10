@@ -21,7 +21,7 @@ def get():
     return db
 
 def init_db(app):
-    if file_exists(DB_TEMPLATE):
+    if file_exists(DATABASE):
         return
     print("Init DB...")
     with app.app_context():

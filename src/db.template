@@ -23,14 +23,10 @@ CREATE TABLE Users (
 CREATE TABLE Puzzles (
   id          TEXT PRIMARY KEY,
   name        TEXT NOT NULL,
+  flag        TEXT NOT NULL,
   tags        TEXT NOT NULL,
   description TEXT NOT NULL,
-  extraFiles  TEXT NOT NULL,
-  dificulty   INTEGER,
-  parentID    TEXT,
-  childrenID  TEXT,
-
-  FOREIGN KEY(parentID) REFERENCES Puzzles(id),
-  FOREIGN KEY(childrenID) REFERENCES Puzzles(id)
+  extraFiles  TEXT,
+  dificulty   INTEGER
 );
 
