@@ -2,8 +2,9 @@ import os
 import users
 import puzzles
 import hashlib
-import hashTable
+import categories
 import database
+import hashTable
 from werkzeug.utils import secure_filename
 from flask import Flask, request, g, render_template, redirect, url_for, jsonify, make_response, send_from_directory, current_app
 
@@ -157,13 +158,13 @@ def api_login_user():
 
     if pressumed_user == None:
         response = {'status': 'error', 'message': 'Username or password wrong'}
-        return jsonfy(response)
+        return jsonify(response)
 
     password_hash = md5(password)
 
     if password_hash != pressumed_user.password:
         response = {'status': 'error', 'message': 'Username or password wrong'}
-        return jsonfy(response)
+        return jsonify(response)
 
     response = make_response(redirect(url_for('play')))
     response.set_cookie('auth', f'{username}:{password_hash}')
@@ -194,5 +195,46 @@ def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
+
+@app.before_request
+def load_categories():
+
+    puzzles_list = [
+        puzzles.Puzzle(puzzle_data) 
+        for puzzle_data in database.query("select * from Puzzles")
+    ]
+
+    categories_list = categories.Categories()
+
+    for puzzle in puzzles_list:
+        tags_list = puzzle.tags.split(",")
+        categories_list.add(tags_list, puzzle)
+
+    current_app.categories = categories_list
+
+@app.route('/search', methods=['GET'])
+def search():
+
+    if main_tag := request.args.get('main_category'):
+        print("first")
+        main_tag = app.categories.head.find(main_tag)
+
+    if secundary_tag := request.args.get('secundary_category'):
+        print("scond")
+        secundary_tag = main_tag.find(secundary_tag)
+
+    if terceary_tag := request.args.get('terceary_category'):
+        print("third")
+        terceary_tag = secundary_tag.find(terceary_tag)
+
+    print(main_tag.value)
+
+    return render_template(
+        'search.html',
+        main_category=main_tag,
+        secundary_category=secundary_tag,
+        terceary_category=terceary_tag,
+        categories=app.categories
+    )
 
 

@@ -9,7 +9,7 @@ class Puzzle:
 
         self.id = puzzle_data['id']
         self.name = puzzle_data['name']
-        self.tags = puzzle_data['tags'].split(",")
+        self.tags = puzzle_data['tags']
         self.flag = puzzle_data['flag']
         self.description = puzzle_data['description']
         self.extraFiles = puzzle_data['extraFiles']

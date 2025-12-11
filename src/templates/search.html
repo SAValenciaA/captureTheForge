@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>My Website</title>
+  </head>
+  <body>
+
+    <ul>
+      <h2>Select main category: {{ main_category.value }}</h2>
+      {% for category in categories.head.childs %}
+        <a href="search?main_category={{ category.value }}"><h3>{{ category.value }}</h3></a>
+      {% endfor %}
+    </ul>
+
+    <ul>
+      <h2>Select secundary category: {{ secundary_category.value }}</h2>
+      {% if main_category %}
+        {% for category in main_category.childs %}
+          <a href="search?main_category={{ main_category.value }}&secundary_category={{ category.value }}">
+            <h3>{{ category.value }}</h3>
+          </a>
+        {% endfor %}
+      {% endif %}
+    </ul>
+
+    <ul>
+      <h2>Select terceary category: {{ terceary_category.value }}</h2>
+      {% if secundary_category %}
+        {% for category in secundary_category.childs %}
+          <a href="search?main_category={{ main_category.value }}&secundary_category={{ secundary_category.value }}&terceary_category={{ category.value }}">
+            <h3>{{ category.value }}</h3>
+          </a>
+        {% endfor %}
+      {% endif %}
+    </ul>
+
+    {% if terceary_category %}
+      <ul>
+        <h1>Choose the game you wanna play:</h1>
+        {% for puzzle in terceary_category.puzzles %}
+          <a href="{{ url_for("play") }}?id={{ puzzle.id }}">
+            <li>
+              <h1>Puzzle: {{ puzzle.name }}</h1> <br /> <p>{{ puzzle.description }}</p>
+              <p>dificulty: {{ puzzle.dificulty }}</p>
+            </li>
+          </a>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </body>
+
+  <style>
+    body {
+      display: flex;
+      gap: 20px;   /* space between the <ul> blocks */
+      align-items: flex-start;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+  </style>
+</html>

@@ -3,7 +3,7 @@ import subprocess
 import os
 import threading
 
-PATH = "minigames"
+PATH = "src/minigames"
 BASE_PORT = 5000
 
 def spawn_server(port, script):
