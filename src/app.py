@@ -27,6 +27,7 @@ def load_flags():
 
     current_app.flags = flags
 
+
 @app.route("/")
 def home():
     return "<p>Hello, World!</p>"
@@ -96,12 +97,27 @@ def check_flag():
     user.solves += puzzle.id + ","
     print(f"{user.score}:{user.solves}")
 
-    user.save()
+    user.save(app.scoreboard)
 
     return jsonify({
         'status': 'success',
         'message': 'Correct!'
     })
+
+@app.before_request
+def load_scoreboard():
+    users_list = database.query("select * from Users limit 50")
+    scoreboard = users.ScoreBoard()
+    for user in users_list:
+        new_user = users.User(user)
+        scoreboard.insert(new_user)
+
+
+    current_app.scoreboard = scoreboard
+
+@app.route("/scoreboard")
+def scoreboard():
+    return render_template("scoreboard.html", users=app.scoreboard)
 
 
 

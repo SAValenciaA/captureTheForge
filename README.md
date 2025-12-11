@@ -81,6 +81,7 @@ A team contains the following properties:
 5. ~make games page~
 6. ~make game (individual) page~
 7. ~make flag checking api~
-8. make scoreboard page
-9. cleaning (optional)
+8. ~make scoreboard page~
+9. make user stats page 
+10. cleaning (optional)
 

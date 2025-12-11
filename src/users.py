@@ -22,11 +22,16 @@ class User:
 
         self.values_pair = lambda: zip(self.values_names_list, self.values())
 
-    def save(self):
+    def save(self, scoreboard):
+
         values_changed = ", ".join(value[0] + " = " + self.formatted(value[1]) for value in self.values_pair())
         query = f"update Users set {values_changed} where id == '{self.id}'"
         print(query)
+
         database.insert(query)
+
+        scoreboard.delete(self.name)
+        scoreboard.insert(self)
 
 
     @staticmethod
@@ -119,6 +124,14 @@ class ScoreBoard:
             current = current.next
         return None
 
+    def delete(self, name):
+        current = self.head
+        while current.next:
+            if current.next.user.name == name:
+                current.next = current.next.next
+                break
+            current = current.next
+
     def print_list(self):
         current = self.head
         index = 1
@@ -126,4 +139,10 @@ class ScoreBoard:
             print(f"{index}. {current.user}")
             current = current.next
             index += 1
+
+    def __iter__(self):
+        current = self.head
+        while current:
+            yield current.user
+            current = current.next
 
