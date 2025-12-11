@@ -3,8 +3,8 @@
   <head>
     <title>My Website</title>
   </head>
-  <body>
 
+  <body>
     <ul>
       <h2>Select main category: {{ main_category.value }}</h2>
       {% for category in categories.head.childs %}
@@ -40,7 +40,7 @@
         {% for puzzle in terceary_category.puzzles %}
           <a href="{{ url_for("play") }}?id={{ puzzle.id }}">
             <li>
-              <h1>Puzzle: {{ puzzle.name }}</h1> <br /> <p>{{ puzzle.description }}</p>
+              <h1 id='puzzleTitle'>Puzzle: {{ puzzle.name }}</h1> <br /> <p>{{ puzzle.description }}</p>
               <p>dificulty: {{ puzzle.dificulty }}</p>
             </li>
           </a>
@@ -52,16 +52,78 @@
   <style>
     body {
       display: flex;
-      gap: 20px;   /* space between the <ul> blocks */
+      gap: 20px;
+
+      /* DARK THEME */
+      background: #1E1E1E;
+      color: #E6E6E6;
+      font-family: Arial, sans-serif;
+
+    }
+    #body {
+      display: flex;
+      gap: 20px;
       align-items: flex-start;
+
+      /* DARK THEME */
+      background: #1E1E1E;
+      color: #E6E6E6;
+      font-family: Arial, sans-serif;
+    }
+    #puzzleTitle{
+      color: #1E1E1E;
     }
 
     ul {
       list-style: none;
       padding: 0;
       margin: 0;
-      border: 1px solid #ccc;
+      border: 1px solid #3A3A3A;
       padding: 10px;
+
+      /* dark card style */
+      background: #2A2A2A;
+      border-radius: 10px;
+      box-shadow: 0px 2px 6px rgba(0,0,0,0.5);
+      min-width: 260px;
+    }
+
+    h1, h2 {
+      color: #A7C7E7; /* pastel blue */
+      margin-bottom: 10px;
+    }
+
+    a {
+      text-decoration: none;
+      color: #E6E6E6;
+      display: block;
+      padding: 8px 12px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      transition: 0.25s;
+    }
+
+    a:hover {
+      background: #A7C7E7;
+      color: #1E1E1E !important;
+    }
+
+    li {
+      padding: 10px;
+      border-radius: 8px;
+      background: #A7C7E7;
+      color: #1E1E1E;
+      margin-bottom: 12px;
+      transition: 0.2s;
+    }
+
+    li:hover {
+      background: #96B9DE;
+      color: #1E1E1E !important;
+    }
+
+    p {
+      color: #1E1E1E;
     }
   </style>
 </html>

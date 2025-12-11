@@ -1,0 +1,29 @@
+<!-- nav.html -->
+<style>
+  nav{
+    display:flex;
+    gap:10px;
+  }
+
+  .nav-link{
+    padding:8px 12px;
+    border-radius:8px;
+    text-decoration:none;
+    color:var(--text);
+    transition:0.18s;
+  }
+
+  .nav-link:hover{
+    background:var(--card);
+    border:1px solid var(--muted-border);
+  }
+</style>
+
+<nav>
+  <a class="nav-link" href="/">Home</a>
+  <a class="nav-link" href="login">Login</a>
+  <a class="nav-link" href="register">Register</a>
+  <a class="nav-link" href="search">Puzzles</a>
+  <a class="nav-link" href="scoreboard">Scoreboard</a>
+</nav>
+

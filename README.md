@@ -63,25 +63,3 @@ An user has the following properties:
 This is a tree ordered by user score, this allows for fast insertion and deletion
 as for fast traversing. Perfect for the scoreboard, given the potentially big number
 of users, changing the position of a user in the board should be quite fast.
-
-## Team
-
-A team contains the following properties:
-
-- Name
-- Integrants list
-
-
-
-# Todo
-1. ~make database template~
-2. ~make database module for managing games and users and teams~
-3. ~make sign up frontend~
-4. ~make login that only saves user id as cookie for future~
-5. ~make games page~
-6. ~make game (individual) page~
-7. ~make flag checking api~
-8. ~make scoreboard page~
-9. make user stats page 
-10. cleaning (optional)
-

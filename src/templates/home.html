@@ -1,11 +1,366 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>My Website</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Capture the Forge — Home</title>
+    <style>
+      :root{
+        --bg: #1E1E1E;
+        --card: #2A2A2A;
+        --muted-border: #3A3A3A;
+        --accent: #A7C7E7;
+        --accent-2: #96B9DE;
+        --text: #E6E6E6;
+        --panel-text: #1E1E1E;
+        --gap: 18px;
+        --radius: 12px;
+        --max-width: 1100px;
+      }
+
+      html,body{height:100%}
+      body{
+        margin:0;
+        min-height:100%;
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        padding:28px 16px;
+        display:flex;
+        justify-content:center;
+      }
+
+      .container{
+        width:100%;
+        max-width:var(--max-width);
+        display:flex;
+        flex-direction:column;
+        gap:var(--gap);
+      }
+
+      header{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+      }
+
+      .brand{
+        display:flex;
+        align-items:center;
+        gap:12px;
+        text-decoration:none;
+        color:var(--text);
+      }
+
+      .logo{
+        width:46px;
+        height:46px;
+        border-radius:10px;
+        background: linear-gradient(135deg,#29475e,#1f2f3a);
+        display:grid;
+        place-items:center;
+        color:var(--accent);
+        font-weight:700;
+      }
+
+      .brand h1{
+        margin:0;
+        font-size:1.2rem;
+        color:var(--accent);
+      }
+
+      nav{
+        display:flex;
+        gap:10px;
+      }
+
+      .nav-link{
+        padding:8px 12px;
+        border-radius:8px;
+        text-decoration:none;
+        color:var(--text);
+        transition:0.18s;
+      }
+
+      .nav-link:hover{
+        background:var(--card);
+        border:1px solid var(--muted-border);
+      }
+
+      .cta{
+        background:var(--accent);
+        color:var(--panel-text);
+        border-radius:10px;
+        padding:8px 12px;
+        font-weight:600;
+        text-decoration:none;
+      }
+      .cta:hover{ background:var(--accent-2); }
+
+      .hero{
+        display:flex;
+        justify-content:space-between;
+        gap:20px;
+        padding:26px;
+        background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+        border-radius:var(--radius);
+        border:1px solid var(--muted-border);
+      }
+
+      .hero-left{ max-width:62%; }
+
+      .hero h2{
+        margin:0 0 10px 0;
+        color:var(--accent);
+      }
+
+      .hero p{
+        margin:0;
+        opacity:0.85;
+      }
+
+      .hero-actions{
+        margin-top:14px;
+        display:flex;
+        gap:12px;
+      }
+
+      .btn{
+        padding:10px 14px;
+        border-radius:10px;
+        font-weight:600;
+        text-decoration:none;
+      }
+      .btn-primary{ background:var(--accent); color:var(--panel-text); }
+      .btn-outline{ border:1px solid var(--muted-border); color:var(--text); }
+
+      .grid{
+        display:grid;
+        grid-template-columns: 1fr 360px;
+        gap:var(--gap);
+      }
+
+      .card{
+        background:var(--card);
+        border:1px solid var(--muted-border);
+        border-radius:var(--radius);
+        padding:14px;
+        box-shadow:0 4px 14px rgba(0,0,0,0.5);
+      }
+
+      .card h3{
+        margin-top:0;
+        color:var(--accent);
+      }
+
+      .stats{
+        display:flex;
+        gap:12px;
+        flex-wrap:wrap;
+      }
+
+      .stat{
+        background:rgba(255,255,255,0.05);
+        padding:10px;
+        border-radius:10px;
+        min-width:120px;
+      }
+
+      .stat .value{
+        font-size:1.2rem;
+        font-weight:700;
+      }
+
+      .stat .label{
+        font-size:0.85rem;
+        color:var(--accent);
+      }
+
+      .puzzle-list{ display:flex; flex-direction:column; gap:14px; }
+
+      .puzzle{
+        display:flex;
+        gap:12px;
+        padding:10px;
+        background: var(--bg);
+        border-radius:10px;
+        border:1px solid rgba(255,255,255,0.05);
+      }
+
+      .puzzle .meta{
+        width:60px;
+        text-align:center;
+        color:var(--accent);
+        font-weight:700;
+      }
+
+      .puzzle .body h4{
+        margin:0 0 6px 0;
+      }
+
+      .scoreboard-item{
+        display:flex;
+        justify-content:space-between;
+        padding:8px;
+        border-radius:8px;
+        background:rgba(255,255,255,0.05);
+      }
+
+      footer{
+        display:flex;
+        justify-content:space-between;
+        padding:12px 6px;
+        opacity:0.85;
+      }
+
+      @media(max-width:880px){
+        .hero{ flex-direction:column; }
+        .grid{ grid-template-columns:1fr; }
+        .hero-left{ max-width:100%; }
+      }
+    </style>
   </head>
+
   <body>
-    <main>
-        <h1>Welcome!</h1>  
-    </main>
+    <div class="container">
+      <!-- HEADER -->
+      <header>
+        <a class="brand" href="index">
+          <div class="logo">CF</div>
+          <div>
+            <h1>Capture the Forge</h1>
+            <div style="opacity:0.8; font-size:0.85rem;">Forge your skills — solve, score, repeat</div>
+          </div>
+        </a>
+
+      {% include "nav.html" %}
+      </header>
+
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-left">
+          <h2>Welcome to Capture the Forge</h2>
+          <p>Join the competition, solve challenges, submit flags, climb the scoreboard.</p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="puzzles">Start solving →</a>
+            <a class="btn btn-outline" href="register">Create account</a>
+            <a class="btn btn-outline" href="scoreboard">View scoreboard</a>
+          </div>
+        </div>
+
+        <aside style="min-width:220px;">
+          <div class="card">
+            <h3>Quick stats</h3>
+            <div class="stats">
+              <div class="stat">
+                <div class="value">421</div>
+                <div class="label">Users</div>
+              </div>
+              <div class="stat">
+                <div class="value">2000</div>
+                <div class="label">Puzzles</div>
+              </div>
+              <div class="stat">
+                <div class="value">18</div>
+                <div class="label">Teams</div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- MAIN GRID -->
+      <div class="grid">
+        <!-- PUZZLES PREVIEW -->
+        <section class="card">
+          <h3>Latest puzzles</h3>
+
+          <div class="puzzle-list">
+            <div class="puzzle">
+              <div class="meta">3★</div>
+              <div class="body">
+                <h4>Broken Cipher</h4>
+                <p>A classical cipher gone wrong. Recover the plaintext.</p>
+              </div>
+            </div>
+
+            <div class="puzzle">
+              <div class="meta">5★</div>
+              <div class="body">
+                <h4>Deep Memory Leak</h4>
+                <p>A corrupted heap fragment exposes something dangerous…</p>
+              </div>
+            </div>
+
+            <div class="puzzle">
+              <div class="meta">2★</div>
+              <div class="body">
+                <h4>Cookie Heist</h4>
+                <p>Someone forgot to secure their session cookie.</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px;">
+            <a class="nav-link" href="puzzles">Browse all puzzles</a>
+          </div>
+        </section>
+
+        <!-- SIDEBAR -->
+        <aside>
+          <div class="card" style="margin-bottom:12px;">
+            <h3>Top players</h3>
+
+            <div class="scoreboard-item">
+              <span><strong>1. Nova</strong></span>
+              <span>982 pts</span>
+            </div>
+            <div class="scoreboard-item">
+              <span><strong>2. ByteWarden</strong></span>
+              <span>940 pts</span>
+            </div>
+            <div class="scoreboard-item">
+              <span><strong>3. CipherCat</strong></span>
+              <span>910 pts</span>
+            </div>
+
+            <div style="margin-top:12px;">
+              <a class="nav-link" href="scoreboard">See full scoreboard</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Top teams</h3>
+
+            <div class="scoreboard-item">
+              <span><strong>1. ForgeMasters</strong></span>
+              <span>2710 pts</span>
+            </div>
+            <div class="scoreboard-item">
+              <span><strong>2. BitHunters</strong></span>
+              <span>2430 pts</span>
+            </div>
+            <div class="scoreboard-item">
+              <span><strong>3. ZeroDayGuild</strong></span>
+              <span>2210 pts</span>
+            </div>
+
+            <div style="margin-top:12px;">
+              <a class="nav-link" href="teams">Team scoreboard</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <footer>
+        <span>© 2025 Capture the Forge</span>
+        <span>
+          <a class="nav-link" href="rules">Rules</a>
+          <a class="nav-link" href="privacy">Privacy</a>
+        </span>
+      </footer>
+    </div>
   </body>
 </html>
+

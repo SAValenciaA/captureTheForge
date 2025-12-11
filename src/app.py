@@ -31,7 +31,7 @@ def load_flags():
 
 @app.route("/")
 def home():
-    return "<p>Hello, World!</p>"
+    return render_template('home.html')
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -227,7 +227,6 @@ def search():
         print("third")
         terceary_tag = secundary_tag.find(terceary_tag)
 
-    print(main_tag.value)
 
     return render_template(
         'search.html',
