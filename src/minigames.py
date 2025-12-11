@@ -4,7 +4,7 @@ import os
 import threading
 
 PATH = "src/minigames"
-BASE_PORT = 5000
+BASE_PORT = 4000
 
 def spawn_server(port, script):
     class Handler(socketserver.BaseRequestHandler):
