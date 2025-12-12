@@ -12,11 +12,10 @@ app = Flask(__name__)
 md5 = lambda password: hashlib.md5(password.encode()).hexdigest()
 
 ALLOWED_EXTENSIONS = {'zip'}
-UPLOAD_FOLDER = './puzzles_files'
 
 database.init_db(app)
 
-app.config['UPLOAD_FOLDER'] = './puzzles_files'
+app.config['UPLOAD_FOLDER'] = '../puzzles_files'
 app.flags = None
 
 @app.before_request
@@ -185,9 +184,10 @@ def api_register_user():
 
     return redirect(url_for('login'))
 
-@app.route('/download/<path:filename>', methods=['GET'])
+@app.route('/download/<path:filename>')
 def download(filename):
     print(filename)
+    print(app.config['UPLOAD_FOLDER'])
     return send_from_directory(app.config['UPLOAD_FOLDER'],path=filename, as_attachment=True)
 
 @app.teardown_appcontext

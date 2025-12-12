@@ -10,7 +10,7 @@
     <p>tags: {{ puzzle.tags }}</p>
     <p>dificulty: {{ puzzle.dificulty }}</p>
     {% if puzzle.extraFiles %}
-      <a href="/download?filename={{ puzzle.extraFiles }}" download>Download Files</a>
+      <a href="{{ url_for('download', filename=puzzle.extraFiles) }}" download>Download Files</a>
     {% endif %}
 
     <form id="flagForm">
